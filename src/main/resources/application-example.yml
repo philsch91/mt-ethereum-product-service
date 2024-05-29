@@ -1,0 +1,74 @@
+server:
+  #application:
+    #name: product-service
+  port: 8080 #443
+  forward-headers-strategy: FRAMEWORK
+  #ssl:
+    #key-store: "classpath:productservice.p12"
+    #key-store-password: "productservice"
+    #key-store-type: "PKCS12"
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO
+  file:
+    name: "./logs/ethereum-product-service.log"
+    #path: "./logs"
+  logback:
+    rollingpolicy:
+      max-history: 0
+      max-file-size: 20MB
+spring:
+  profiles:
+    active: "prod"
+  security:
+    user:
+      name: "admin"
+      password: "productservice"
+management:
+  #server:
+    #address: 127.0.0.1
+    #port: 8081
+  security:
+    enable: false
+    #role: SUPERUSER
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      group:
+        web3service:
+          include: "Web3Service"
+info:
+  build:
+    artifact: @project.artifactId@
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+  app:
+    name: "mt-ethereum-product-service"
+    description: "Product Dapp Backend Service"
+    version: "1.0.0"
+nodeAddress: "https://mainnet.infura.io/ws/v3/<project-id>"
+privateKey: acb2cfe8f39bdb84f64acd940ccda4ac2d7639e92c02bc267e663969c05bf3a5
+productSaleContractAddress: 0xe0f902b216c5b825d025b9a8ad6b1b9ef1e89d2b
+productContractAddress: 0x695391C8bF084f48d1845419dD645fd17750bB76 #9F9d520a11BC57086F7b51a6D1158f8AC061E60D
+walletDirectoryPath: "/private/tmp"
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: mongoadmin
+      password: mongosecret
+      database: product-service-dev-db
+nodeAddress: "http://localhost:7545"
